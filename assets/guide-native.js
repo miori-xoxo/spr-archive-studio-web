@@ -5,7 +5,7 @@ const imageStyle=document.createElement('style');imageStyle.textContent='.pictur
 const common='BASIC / 共通操作の画面例';
 const shortTier='TIER 1〜 / 現行ガイドの機能区分';
 const general='架空データの開発版で画面と入口を確認しています。分割・ドラッグ・キー操作など、この画像だけで確認できない手順は追加していません。';
-const shortNote='提供ランクは現行ガイドの区分を維持しています。開発版で画面が開いたことは、契約・利用権限の検証ではありません。今回は0〜8秒を確認・確定し、縦プレビューと2.050秒の字幕・コメント表示を確認。独立した縦MP4保存と実聴は今回未確認です。';
+const shortNote='提供プランは現行ガイドの区分を維持しています。開発版で画面が開いたことは、契約・利用権限の検証ではありません。今回は0〜8秒を確認・確定し、縦プレビューと2.050秒の字幕・コメント表示を確認。独立した縦MP4保存と実聴は今回未確認です。';
 const pages={
 assemble:{title:'② 動画を組み立てる：実画面',tier:common,caveat:general,views:[{label:'組み立て画面',file:'02_assemble.jpg',pins:[
 ['作品を選ぶ',46,12.1,'上部の作品欄に現在の作品名が表示されます。この例は架空の「サンプル作品」です。'],
@@ -27,7 +27,7 @@ subtitle:{title:'③ 字幕・コメント：実画面',tier:common,caveat:gener
 ['コメントの入力欄',75.5,53.3,'選択したコメントの本文自体が入力欄になっています。'],
 ['編集を閉じる',96.7,49.6,'コメントの行内編集を閉じる入口です。'],
 ['表示をずらす',66.5,64.3,'コメントの表示開始をずらす秒数欄です。元コメントの取得時刻とは分けて扱います。'],
-['表示時間',86.8,64.3,'コメントの表示時間を調整する欄です。詳細な配置・色・フォントの利用ランクは、この共通操作の番号に含めていません。']]}]},
+['表示時間',86.8,64.3,'コメントの表示時間を調整する欄です。詳細な配置・色・フォントの利用プランは、この共通操作の番号に含めていません。']]}]},
 short:{title:'⑥ ショート変換：実画面',tier:shortTier,caveat:shortNote,views:[
 {label:'縦プレビュー完成',file:'06_short_preview_ready.jpg',pins:[
 ['範囲を確認・確定',28.1,78.9,'開始0秒・終了8秒を確認し、「この範囲を確認・確定」を押した状態です。本編や範囲を変えた場合は再確認が必要です。'],
@@ -51,6 +51,6 @@ const originalNavigate=navigate;navigate=function(){originalNavigate();const rea
 const y={1:9.7,2:15.7,3:21.7,4:27.7,5:33.7,6:39.7,7:80.2,8:83.7,9:87.2,10:90.7,11:94.2,12:97.7};
 data.forEach(d=>{if(y[d.n])d.y=y[d.n];document.querySelectorAll('.pin[data-id="'+d.n+'"]').forEach(b=>{b.style.left=d.x+'%';b.style.top=d.y+'%';});});
 // Additional palette view is illustrative; no unverified feature receives a new tier number.
-const palette=document.createElement('details');palette.className='native-note';const summary=document.createElement('summary');summary.textContent='素材・演出パレットの実画面を見る（各機能の提供ランクは確認中）';palette.appendChild(summary);const img=document.createElement('img');img.src=base+'04a_effects_palette.jpg';img.alt='開発版616の演出パレット。架空素材の実画面。個別機能の利用ランクは確認中。';img.style.width='100%';palette.appendChild(img);document.querySelector('#available').appendChild(palette);
+const palette=document.createElement('details');palette.className='native-note';const summary=document.createElement('summary');summary.textContent='素材・演出パレットの実画面を見る（各機能の提供プランは確認中）';palette.appendChild(summary);const img=document.createElement('img');img.src=base+'04a_effects_palette.jpg';img.alt='開発版616の演出パレット。架空素材の実画面。個別機能の利用プランは確認中。';img.style.width='100%';palette.appendChild(img);document.querySelector('#available').appendChild(palette);
 navigate();
 })();

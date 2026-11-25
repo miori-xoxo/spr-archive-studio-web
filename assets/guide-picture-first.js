@@ -231,7 +231,7 @@ style.textContent+='#nativeGuide{--return-side:clamp(230px,23%,360px);--return-g
 style.textContent+='#nativeGuide .guide-stage-link{border:1px solid #b95781;background:#fae4ef;color:#77294e;font-weight:700;border-radius:8px;padding:7px 11px}#nativeGuide .guide-stage-link:hover{background:#f6cfe3}';
 document.head.appendChild(style);
 function enter(key,fromPin=false){stack.push({current,selectedPin,mode,scrollX:window.scrollX,scrollY:window.scrollY,phoneRow:phoneActive});current=key;selectedPin=0;mode='';openFromPin=fromPin;draw(true);}
-function back(){if(!stack.length){if(selectedScreen==='easy'){selectedScreen=easyReturnScreen;navigate();document.querySelector?.('[data-screen="'+selectedScreen+'"]')?.focus({preventScroll:true});}return;}const prev=stack.pop();({current,selectedPin,mode}=prev);draw();const row=phoneGuide?.matches&&phoneRows.get(prev.phoneRow);if(row){row.details.open=true;phoneActive=prev.phoneRow;row.summary.focus({preventScroll:true});}const n=row?null:$('nativePins').querySelector('[data-native-pin="'+selectedPin+'"]');if(!row)(n||$('nativeViews').querySelector('button'))?.focus({preventScroll:true});if(Number.isFinite(prev.scrollY))window.scrollTo?.(prev.scrollX,prev.scrollY);}
+function back(){if(!stack.length)return;const prev=stack.pop();({current,selectedPin,mode}=prev);draw();const row=phoneGuide?.matches&&phoneRows.get(prev.phoneRow);if(row){row.details.open=true;phoneActive=prev.phoneRow;row.summary.focus({preventScroll:true});}const n=row?null:$('nativePins').querySelector('[data-native-pin="'+selectedPin+'"]');if(!row)(n||$('nativeViews').querySelector('button'))?.focus({preventScroll:true});if(Number.isFinite(prev.scrollY))window.scrollTo?.(prev.scrollX,prev.scrollY);}
 const rich={
  '元に戻す':{desc:'直前の対象操作を取り消して、ひとつ前の状態へ戻します。',steps:['操作結果を確認します。','たとえば別の位置で分割してしまったら、「元に戻す」を押します。','分割前の状態に戻ったか、タイムラインで確認します。'],extra:'取り消しを戻したいときは「やり直す」を使います。',tip:'分割や配置を試すときに便利です。押した後は右上の表示で何を取り消したか確認できます。表示が省略されているときは、その表示にカーソルを置くと全文を確認できます。',note:'画像・字幕・コメント分割は操作確認済みです。すべての操作の取り消しを保証するものではありません。'},
  'やり直す':{steps:['「元に戻す」で取り消した直後に押します。','戻したはずの変更が画面に再び適用されたか確認します。'],tip:'直前に取り消した操作があるときに使えます。'},
@@ -567,7 +567,7 @@ function renderPhoneGuide(view){
   if(target){
    const label=pin.stageTarget?pin.stageLabel+'タブを見てみる':'「'+views[target].name+'」'+((inlineShortViews.has(target)||inlineCaptionViews.has(target))?'を同じ画面で見る':'の画面を開く');
    button(body,label,()=>{phoneActive=i;selectedPin=i;followPin(target);$('nativeTitle').scrollIntoView?.({block:'start'});});
-  }else if(['閉じる','詳細を閉じる','キャンセル','通常画面へ戻る'].includes(pin.name)&&(stack.length||selectedScreen==='easy')){
+  }else if(['閉じる','詳細を閉じる','キャンセル','通常画面へ戻る'].includes(pin.name)&&(stack.length)){
    button(body,'元の画面に戻る',back);
   }
  }
@@ -635,7 +635,7 @@ function draw(focusBack=false){
  renderPhoneGuide(view);
  drawPopupHelp(current);
  pictureObserver?.disconnect();list.replaceChildren();pins.replaceChildren();tools.replaceChildren();
- const close=(stack.length||selectedScreen==='easy')?button(tools,inlineShortViews.has(current)?'⑦の画面に戻る':inlineCaptionViews.has(current)?'③の画面に戻る':'閉じて戻る',back):null;
+ const close=(stack.length)?button(tools,inlineShortViews.has(current)?'⑦の画面に戻る':inlineCaptionViews.has(current)?'③の画面に戻る':'閉じて戻る',back):null;
  tools.classList.toggle('guide-return-row',Boolean(close));
  if(close)close.className='guide-return';
  if(focusBack&&close)close.focus({preventScroll:true});
@@ -649,7 +649,7 @@ function draw(focusBack=false){
   }
  };
  if(view.pins.length){
-  view.pins.forEach((pin,i)=>{const b=button(pins,String(pinNumber(pin,i)),()=>{mode='';pick(i);if(phoneGuide?.matches){const row=phoneRows.get(i);if(row){phoneActive=i;row.details.open=true;row.summary.focus({preventScroll:true});row.summary.scrollIntoView?.({block:'nearest'});}return;}if(pin.open)followPin(pin.open);else if((pin.name==='閉じる'||pin.name==='詳細を閉じる'||pin.name==='キャンセル'||pin.name==='通常画面へ戻る')&&(stack.length||selectedScreen==='easy'))back();});b.className='pin';b.dataset.nativePin=i;b.style.left=pin.x+'%';b.style.top=pin.y+'%';b.setAttribute('aria-label',pinNumber(pin,i)+' '+pin.name);});
+  view.pins.forEach((pin,i)=>{const b=button(pins,String(pinNumber(pin,i)),()=>{mode='';pick(i);if(phoneGuide?.matches){const row=phoneRows.get(i);if(row){phoneActive=i;row.details.open=true;row.summary.focus({preventScroll:true});row.summary.scrollIntoView?.({block:'nearest'});}return;}if(pin.open)followPin(pin.open);else if((pin.name==='閉じる'||pin.name==='詳細を閉じる'||pin.name==='キャンセル'||pin.name==='通常画面へ戻る')&&(stack.length))back();});b.className='pin';b.dataset.nativePin=i;b.style.left=pin.x+'%';b.style.top=pin.y+'%';b.setAttribute('aria-label',pinNumber(pin,i)+' '+pin.name);});
   placePins(view,picture,pins);
   pictureObserver?.disconnect();
   if(typeof ResizeObserver==='function'){pictureObserver=new ResizeObserver(()=>placePins(view,picture,pins));pictureObserver.observe(picture);}
@@ -688,6 +688,6 @@ window.openTier3GuideAt=function(id){
 };
 window.addEventListener('hashchange',()=>queueMicrotask(destination));
 phoneGuide?.addEventListener?.('change',()=>{if(selectedRank==='t3'&&views[current])draw();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(stack.length||selectedScreen==='easy')){e.preventDefault();back();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(stack.length)){e.preventDefault();back();}});
 navigate();queueMicrotask(destination);
 })();

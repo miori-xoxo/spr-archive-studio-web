@@ -8,7 +8,7 @@ const guideRoutes = {
   'guide-subtitle-correction': {screen:'subtitle', view:'字幕の行内編集', control:'字幕の入力欄'},
   'guide-subtitle-timing': {screen:'subtitle', view:'字幕の行内編集', control:'表示をずらす'},
   'guide-subtitle-duration': {screen:'subtitle', view:'字幕の行内編集', control:'表示時間'},
-  'guide-comment-selection': {screen:'subtitle', view:'一覧', control:'コメントの採否'},
+  'guide-comment-selection': {screen:'subtitle', view:'一覧', control:'コメントの表示方法（対象を選ぶ）'},
   'guide-comment-correction': {screen:'subtitle', view:'コメントの行内編集', control:'コメントの入力欄'},
   'guide-comment-timing': {screen:'subtitle', view:'コメントの行内編集', control:'表示をずらす'},
   'guide-detail': {screen:'detail', rank:'t3'},
@@ -24,6 +24,12 @@ const guideRoutes = {
 function openGuideDestination() {
   let key;
   try { key=decodeURIComponent(location.hash.slice(1)); } catch { return; }
+  if(key==='guide-basic-start'){
+    selectedRank='basic';selectedScreen='source';navigate();
+    const panel=document.getElementById('screenPanel');
+    requestAnimationFrame(()=>{panel.scrollIntoView({block:'start'});panel.focus({preventScroll:true});});
+    return;
+  }
   const route=Object.prototype.hasOwnProperty.call(guideRoutes,key)&&guideRoutes[key];
   if(!route)return;
   const ranks=['basic','t1','t2','t3'];

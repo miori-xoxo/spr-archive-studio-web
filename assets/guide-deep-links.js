@@ -26,8 +26,13 @@ function openGuideDestination() {
   try { key=decodeURIComponent(location.hash.slice(1)); } catch { return; }
   if(key==='guide-basic-start'){
     selectedRank='basic';selectedScreen='source';navigate();
-    const panel=document.getElementById('screenPanel');
-    requestAnimationFrame(()=>{panel.scrollIntoView({block:'start'});panel.focus({preventScroll:true});});
+    // The home page opens Basic at the selectors, not at its screenshot.
+    const start=document.querySelector('.rank-stage')||document.querySelector('.screen-stage');
+    if(start)requestAnimationFrame(()=>{
+      start.tabIndex=-1;
+      start.focus({preventScroll:true});
+      start.scrollIntoView({block:'start',behavior:'instant'});
+    });
     return;
   }
   const route=Object.prototype.hasOwnProperty.call(guideRoutes,key)&&guideRoutes[key];

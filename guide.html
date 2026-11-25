@@ -58,7 +58,7 @@ function navigate(){
 }
 document.querySelectorAll('[data-rank]').forEach(b=>b.onclick=()=>{selectedRank=b.dataset.rank;if(((selectedScreen==='detail'||selectedScreen==='easy')&&selectedRank!=='t3')||(selectedScreen==='short'&&selectedRank==='basic'))selectedScreen='source';navigate();});
 document.querySelectorAll('[data-screen]').forEach(b=>{b.onclick=()=>{selectedScreen=b.dataset.screen;navigate();};b.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const all=[...document.querySelectorAll('[data-screen]')].filter(x=>!x.hidden);let i=all.indexOf(b);i=e.key==='Home'?0:e.key==='End'?all.length-1:(i+(e.key==='ArrowRight'?1:-1)+all.length)%all.length;all[i].click();all[i].focus();};});
-navigate();</script><script src="assets/guide-native.js"></script><script src="assets/guide-picture-first.js?v=20261125b"></script><script src="assets/guide-deep-links.js"></script>
+navigate();</script><script src="assets/guide-native.js"></script><script src="assets/guide-picture-first.js?v=20261125b"></script><script src="assets/guide-deep-links.js?v=416e65b1"></script>
 <script>
 // Supplement stays inside the existing Tier 3 guide; no redirect.
 function syncTier3Details(){const full=document.getElementById("tier3-complete-guide");full.hidden=true;}
